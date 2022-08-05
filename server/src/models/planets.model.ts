@@ -21,6 +21,10 @@ class PlanetsModel {
     );
   }
 
+  //We can wait for that promise to resolve before accepting any request in
+  //the controller because the stream operation is done asynchronously and
+  //we cant export getAllPlanets before the planets data is loaded in the the
+  //array, otherwise we will just return an empty array with no data to client
   public loadPlanetsData(): Promise<null> {
     return new Promise((resolve, reject) => {
       const csvData = path.join(
@@ -36,7 +40,7 @@ class PlanetsModel {
        * an argument, then it create a readable stream, which takes a large file
        * and breaks it into smaller chuncks.
        */
-      fs.createReadStream(csvData)
+      fs.createReadStream(csvData) //Asynchronous operations
         /**
          * After creating creating the readable stream, pipe() forwards chuncks of
          * data from the readable stream to another stream. The second stream is

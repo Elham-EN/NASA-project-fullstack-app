@@ -1,0 +1,24 @@
+{
+  "name": "nasa-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "npm run watch --prefix server",
+    "client": "npm start --prefix client",
+    "watch": "npm run server & npm run client",
+    "install-server": "npm install --prefix server",
+    "install-client": "npm install --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Elham-EN/NASA-project-fullstack-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Elham-EN/NASA-project-fullstack-app/issues"
+  },
+  "homepage": "https://github.com/Elham-EN/NASA-project-fullstack-app#readme"
+}
