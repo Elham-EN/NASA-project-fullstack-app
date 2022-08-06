@@ -42,7 +42,7 @@ class PlanetsModel {
        */
       fs.createReadStream(csvData) //Asynchronous operations
         /**
-         * After creating creating the readable stream, pipe() forwards chuncks of
+         * After creating the readable stream, pipe() forwards chuncks of
          * data from the readable stream to another stream. The second stream is
          * created when the parse() method is invoked inside the pipe() method and
          * the parse() method implements a transform stream (readable stream),

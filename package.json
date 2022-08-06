@@ -6,9 +6,11 @@
   "scripts": {
     "server": "npm run watch --prefix server",
     "client": "npm start --prefix client",
+    "client-prod": "npm run build --prefix client",
     "watch": "npm run server & npm run client",
     "install-server": "npm install --prefix server",
-    "install-client": "npm install --prefix client"
+    "install-client": "npm install --prefix client",
+    "deploy": "npm run build --prefix client && npm start --prefix server"
   },
   "repository": {
     "type": "git",
