@@ -1,5 +1,4 @@
 import { getAllLaunches, addNewLaunch } from "../../models/launches.model";
-
 import { Request, Response } from "express";
 
 //Data transfer object. It's an object that the client sends to the server
@@ -21,7 +20,35 @@ export function httpAddNewLaunch(req: Request, res: Response): Response {
   const laucnhData = req.body as CreateLaunchDto;
   //A string contain a formatted date and now it will be a date object
   laucnhData.launchDate = new Date(laucnhData.launchDate);
+  if (!isReqBodyValid(laucnhData)) {
+    return res.status(400).json({
+      error:
+        "Invalid Launch data, You have either provided invalid" +
+        " input or have not provided required input",
+    });
+  }
   addNewLaunch(laucnhData);
   //Send a JSON response, convert object to JSON type
   return res.status(201).json(laucnhData);
+}
+
+function isReqBodyValid(laucnhData: CreateLaunchDto): boolean {
+  let isValid = false;
+  const { mission, rocket, target, launchDate } = laucnhData;
+  //Null check and Type Guard
+  if (mission && typeof mission === "string") {
+    isValid = true;
+  }
+  if (rocket && typeof rocket === "string") {
+    isValid = true;
+  }
+  if (target && typeof target === "string") {
+    isValid = true;
+  }
+  //Invalid Date error is throw if it is not Date object
+  //and also throw error if is null and check for valid format
+  if (launchDate.toString() === "Invalid Date") {
+    isValid = false;
+  }
+  return isValid;
 }
