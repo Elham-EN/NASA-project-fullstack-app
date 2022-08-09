@@ -1,4 +1,9 @@
-import { getAllLaunches, addNewLaunch } from "../../models/launches.model";
+import {
+  getAllLaunches,
+  addNewLaunch,
+  existsLaunchWithId,
+  abortLaunchById,
+} from "../../models/launches.model";
 import { Request, Response } from "express";
 
 //Data transfer object. It's an object that the client sends to the server
@@ -27,9 +32,20 @@ export function httpAddNewLaunch(req: Request, res: Response): Response {
         " input or have not provided required input",
     });
   }
-  addNewLaunch(laucnhData);
+  const newLaunch = addNewLaunch(laucnhData);
   //Send a JSON response, convert object to JSON type
-  return res.status(201).json(laucnhData);
+  return res.status(201).json(newLaunch);
+}
+
+export function httpAbortLaunch(req: Request, res: Response): Response {
+  const launchId = Number(req.params.id);
+  if (!existsLaunchWithId(launchId)) {
+    return res.status(404).json({
+      error: "Launch not found",
+    });
+  }
+  const aborted = abortLaunchById(launchId);
+  return res.status(200).json(aborted);
 }
 
 function isReqBodyValid(laucnhData: CreateLaunchDto): boolean {

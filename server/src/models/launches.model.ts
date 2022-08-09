@@ -5,8 +5,8 @@ interface LaunchType {
   launchDate: Date;
   target: string;
   customer?: string[];
-  upcoming?: true;
-  success?: true;
+  upcoming?: boolean;
+  success?: boolean;
 }
 
 //Keep track of flightNumber
@@ -38,8 +38,8 @@ export function getAllLaunches(): LaunchType[] {
   return Array.from(launches.values());
 }
 
-export function addNewLaunch(launchPostData: LaunchType): void {
-  latestFlightNumber += 1;
+export function addNewLaunch(launchPostData: LaunchType): LaunchType {
+  latestFlightNumber++;
   const newLaunch: LaunchType = {
     ...launchPostData,
     //Add addtional properties
@@ -49,4 +49,17 @@ export function addNewLaunch(launchPostData: LaunchType): void {
     success: true,
   };
   launches.set(latestFlightNumber, newLaunch);
+  return newLaunch;
+}
+
+export function existsLaunchWithId(launchId: number): boolean {
+  return launches.has(launchId);
+}
+
+export function abortLaunchById(launchId: number): LaunchType | undefined {
+  //launches.delete(launchId);
+  const aborted = launches.get(launchId);
+  aborted?.upcoming ? (aborted.upcoming = false) : true;
+  aborted?.success ? (aborted.success = false) : true;
+  return aborted;
 }
