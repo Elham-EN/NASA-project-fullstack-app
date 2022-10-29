@@ -10,7 +10,8 @@
     "watch": "npm run server & npm run client",
     "install-server": "npm install --prefix server",
     "install-client": "npm install --prefix client",
-    "deploy": "npm run build --prefix client && npm start --prefix server"
+    "deploy": "npm run build --prefix client && npm start --prefix server",
+    "deploy-cluster": "npm run build --prefix client && npm run cluster --prefix server"
   },
   "repository": {
     "type": "git",

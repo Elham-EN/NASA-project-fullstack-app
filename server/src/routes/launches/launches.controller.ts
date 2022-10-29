@@ -22,6 +22,7 @@ export function httpGetAllLaunches(_req: Request, res: Response): Response {
 }
 
 export function httpAddNewLaunch(req: Request, res: Response): Response {
+  //Because Express doesn't know what the client is going to send to the server
   const laucnhData = req.body as CreateLaunchDto;
   //A string contain a formatted date and now it will be a date object
   laucnhData.launchDate = new Date(laucnhData.launchDate);
@@ -49,22 +50,22 @@ export function httpAbortLaunch(req: Request, res: Response): Response {
 }
 
 function isReqBodyValid(laucnhData: CreateLaunchDto): boolean {
-  let isValid = false;
   const { mission, rocket, target, launchDate } = laucnhData;
   //Null check and Type Guard
-  if (mission && typeof mission === "string") {
-    isValid = true;
+  if (mission.length < 1 || rocket.length < 0 || target.length < 0) {
+    return false;
   }
-  if (rocket && typeof rocket === "string") {
-    isValid = true;
-  }
-  if (target && typeof target === "string") {
-    isValid = true;
+  if (
+    typeof mission !== "string" ||
+    typeof rocket !== "string" ||
+    typeof target !== "string"
+  ) {
+    return false;
   }
   //Invalid Date error is throw if it is not Date object
   //and also throw error if is null and check for valid format
   if (launchDate.toString() === "Invalid Date") {
-    isValid = false;
+    return false;
   }
-  return isValid;
+  return true;
 }

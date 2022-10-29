@@ -27,6 +27,7 @@ const launch: LaunchType = {
   upcoming: true,
   success: true,
 };
+
 if (launch?.flightNumber) launches.set(launch.flightNumber, launch);
 //console.log(launches.values());
 //console.log(Array.from(launches.values()));
