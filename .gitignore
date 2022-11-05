@@ -1,3 +1,5 @@
 */node_modules
 */public
 server/access.log
+.DS_Store
+**/.DS_Store

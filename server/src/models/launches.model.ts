@@ -1,10 +1,12 @@
+// import launches from "./launches.mongo";
+
 interface LaunchType {
   flightNumber?: number;
   mission: string;
   rocket: string;
   launchDate: Date;
   target: string;
-  customer?: string[];
+  customers?: string[];
   upcoming?: boolean;
   success?: boolean;
 }
@@ -23,7 +25,7 @@ const launch: LaunchType = {
   rocket: "Saturn IS2",
   launchDate: new Date("December 27, 2030"),
   target: "kepler-442 b",
-  customer: ["ZTM", "NASA"],
+  customers: ["ZTM", "NASA"],
   upcoming: true,
   success: true,
 };
@@ -45,7 +47,7 @@ export function addNewLaunch(launchPostData: LaunchType): LaunchType {
     ...launchPostData,
     //Add addtional properties
     flightNumber: latestFlightNumber,
-    customer: ["ZTM", "NASA"],
+    customers: ["ZTM", "NASA"],
     upcoming: true,
     success: true,
   };
