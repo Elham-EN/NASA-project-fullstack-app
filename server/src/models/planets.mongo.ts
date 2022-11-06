@@ -8,6 +8,6 @@ const planetSchema = new Schema<Planet>({
   kepler_name: { type: String, required: true },
 });
 
-const planets = mongoose.model("Planet", planetSchema);
+const planets = mongoose.model<Planet>("Planet", planetSchema);
 
 export default planets;

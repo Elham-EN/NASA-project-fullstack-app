@@ -2,7 +2,7 @@
 import http from "http";
 import mongoose from "mongoose";
 import app from "./app";
-import { planetsModel } from "./models/planets.model";
+import { planetsModelObject } from "./models/planets.model";
 
 const MONGO_URL =
   "mongodb+srv://nasa-api:BuXGXjtgCh5flRzj@nasacluster.5y3qujg.mongodb.net/nasa?retryWrites=true&w=majority";
@@ -33,7 +33,7 @@ async function startServer() {
   await mongoose.connect(MONGO_URL);
   //To make sure the planets data is available for any request that ever
   //comes into our server. Populate planets data before listening for request
-  await planetsModel.loadPlanetsData();
+  await planetsModelObject.loadPlanetsData();
   //Listening on Port 8000. Listening for a request from the client
   server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 }

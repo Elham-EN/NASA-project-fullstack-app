@@ -8,16 +8,19 @@
  */
 
 import { Request, Response } from "express";
-import { planetsModel } from "../../models/planets.model";
+import { planetsModelObject } from "../../models/planets.model";
 
 //Send json data to the client who made that GET request on
 //route '/planets'
-function httpGetAllPlanets(req: Request, res: Response): Response {
+async function httpGetAllPlanets(
+  req: Request,
+  res: Response
+): Promise<Response> {
   console.log(req.method, req.path, "httpGetAllPlanets");
   return res
     .setHeader("Content-Type", "application/json")
     .status(200)
-    .send(planetsModel.getAllPlanets());
+    .send(await planetsModelObject.getAllPlanets());
 }
 
 export default httpGetAllPlanets;
