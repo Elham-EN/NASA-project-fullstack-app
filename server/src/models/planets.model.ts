@@ -88,6 +88,8 @@ class PlanetsModel {
   //   return this.habitablePlanets;
   // }
 
+  /** CRUD OPERATIONS */
+
   //Return an array of habitable planets
   public async getAllPlanets(): Promise<Planet[] | null> {
     try {
@@ -119,4 +121,5 @@ class PlanetsModel {
     }
   }
 }
+
 export const planetsModelObject = new PlanetsModel();

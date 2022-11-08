@@ -1,6 +1,6 @@
-import { getModelForClass, prop, Ref, index } from "@typegoose/typegoose";
-import * as mongoose from "mongoose";
-import { Planet } from "./planets.typegoose";
+import { getModelForClass, prop, index } from "@typegoose/typegoose";
+// import * as mongoose from "mongoose";
+// import { Planet } from "./planets.typegoose";
 
 @index({ flightNumber: 1 })
 class Launch {
@@ -16,10 +16,10 @@ class Launch {
   @prop({ type: () => String, required: true })
   public rocket: string;
 
-  @prop({ ref: () => Planet, required: true })
-  public target: Ref<Planet, mongoose.Types.ObjectId>;
+  @prop({ type: () => String, required: true })
+  public target: string;
 
-  @prop({ type: () => [String], required: true })
+  @prop({ type: () => Array })
   public customers: string[];
 
   @prop({ type: () => Boolean, required: true })
