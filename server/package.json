@@ -7,7 +7,7 @@
     "start": "ts-node src/server.ts",
     "watch": "nodemon src/server.ts",
     "test": "jest",
-    "test-watch": "jest --watch",
+    "test-watch": "jest --watch --detectOpenHandles",
     "typescript-cluster": "pm2 install typescript",
     "cluster": "pm2 start src/server.ts -i max",
     "cluster-list": "pm2 list",

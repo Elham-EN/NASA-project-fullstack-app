@@ -35,7 +35,9 @@ async function abortLaunchById(launchId: number): Promise<boolean> {
   return abortedLaunch.modifiedCount === 1;
 }
 
-async function scheduleNewLaunch(launch: LaunchTypeArg): Promise<void> {
+async function scheduleNewLaunch(
+  launch: LaunchTypeArg
+): Promise<LaunchTypeArg> {
   const newFlightNumber = (await getLastestFlightNumber()) + 1;
   const newLaunch: LaunchType = {
     ...launch,
@@ -45,6 +47,7 @@ async function scheduleNewLaunch(launch: LaunchTypeArg): Promise<void> {
     flightNumber: newFlightNumber,
   };
   await saveLaunchToMongoDB(newLaunch);
+  return newLaunch;
 }
 
 enum FLIGHT_NUMBER {
