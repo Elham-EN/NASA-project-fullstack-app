@@ -16,6 +16,10 @@ interface launchDataWithoutDate {
   target: string;
 }
 
+enum URL {
+  VERSION = "/v1/launches",
+}
+
 describe("Launches API", () => {
   //Setup an mongdb environment onece for all test cases
   beforeAll(async () => {
@@ -30,7 +34,7 @@ describe("Launches API", () => {
   describe("GET (Request) /launches - fetch all launches", function () {
     test("It should respond with 200 success", async function () {
       await request(app)
-        .get("/launches")
+        .get(URL.VERSION)
         .expect("Content-Type", /json/)
         .expect(200);
     });
@@ -60,32 +64,23 @@ describe("Launches API", () => {
 
     test("It should respond with 201 created", async function () {
       await request(app)
-        .post("/launches")
+        .post(URL.VERSION)
         .send(launchObject_A)
         .expect("Content-Type", /json/)
         .expect(201);
-
-      // const requestDate = new Date(launchObject_A.launchDate).valueOf();
-      // console.log(requestDate);
-      // const responseLaunchBody = response.body as completeLaunchData;
-      // const responseDate = new Date(responseLaunchBody.launchDate).valueOf();
-      // expect(responseDate).toBe(requestDate);
-      // expect(responseLaunchBody).toMatchObject(launchObject_A);
     });
 
     test("It should catch missing required properties", async function () {
       await request(app)
-        .post("/launches")
+        .post(URL.VERSION)
         .send(launchObject_B)
         .expect("Content-Type", /json/)
         .expect(400);
-      // const responseLaunchBody = response.body as completeLaunchData;
-      // expect(responseLaunchBody).toMatchObject(launchObject_A);
     });
 
     test("It should catch invlaid dates", async () => {
       await request(app)
-        .post("/launches")
+        .post(URL.VERSION)
         .send(launchObject_C)
         .expect("Content-Type", /json/)
         .expect(400);

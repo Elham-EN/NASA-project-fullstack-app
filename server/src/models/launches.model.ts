@@ -1,6 +1,7 @@
 // import { UpdateWriteOpResult } from "mongoose";
 import LaunchModel from "./launches.typegoose";
 import planetModel from "./planets.typegoose";
+import axios, { AxiosResponse } from "axios";
 
 interface LaunchType {
   flightNumber?: number;
@@ -83,13 +84,123 @@ async function saveLaunchToMongoDB(launch: LaunchType): Promise<void> {
   }
 }
 
-async function getAllLaunches(): Promise<LaunchType[] | unknown> {
+async function getAllLaunches(
+  skip: number,
+  limit: number
+): Promise<LaunchType[] | unknown> {
   try {
-    return await LaunchModel.find({}, { _id: 0, __v: 0 });
+    console.log(`skip: ${skip} limit: ${limit}`);
+    return await LaunchModel.find({}, { _id: 0, __v: 0 })
+      .sort({ flightNumber: 1 })
+      .skip(skip)
+      .limit(limit);
   } catch (error: unknown) {
     console.log(`Failed to get all launches ${error}`);
     return error;
   }
+}
+
+enum SPACEX_API {
+  URI = "https://api.spacexdata.com/v5/launches/query",
+}
+
+//Loading third-party api data (second parameter take request)
+async function loadLaunchData(): Promise<void> {
+  if (await firstLaunchAlreadyExistInDB()) {
+    console.log("Launch Data Already loaded");
+    return;
+  }
+  console.log("Downloading launch data...");
+  try {
+    //A POST request to SpaceX API
+    const response = await axios.post(SPACEX_API.URI, {
+      //Making a qury to get all launches objects
+      query: {},
+      options: {
+        pagination: false,
+        //populated with other documents that it reference to
+        populate: [
+          //select - what field you want to include in the response
+          { path: "rocket", select: { name: 1 } },
+          { path: "payloads", select: { customers: 1 } },
+        ],
+      },
+    });
+    if (response.status !== 200) {
+      throw new Error("Launch data download failed");
+    }
+
+    createLaunchSpaceX(response);
+
+    //Create launch from SpaceX API loaded data
+  } catch (err) {
+    const errorMsg: string = (err as Error).message;
+    console.error(`Failed to load API. Reason: ${errorMsg}`);
+  }
+}
+
+interface LaunchFilter {
+  flightNumber?: number;
+  mission?: string;
+  rocket?: string;
+}
+
+async function findLaunch(filter: LaunchFilter): Promise<LaunchType | void> {
+  try {
+    const launch = (await LaunchModel.findOne(
+      { ...filter },
+      { _id: 0, __v: 0 }
+    )) as LaunchType;
+    return launch;
+  } catch (error) {
+    const errorMsg = (error as Error).message;
+    console.log("Error found in findLaunch function: ", errorMsg);
+  }
+}
+
+async function firstLaunchAlreadyExistInDB(): Promise<boolean> {
+  const firstLaunch = await findLaunch({
+    flightNumber: 1,
+    rocket: "Falcon 1",
+    mission: "FalconSat",
+  });
+  console.log(firstLaunch);
+  if (firstLaunch === null) {
+    return false;
+  }
+  return true;
+}
+
+async function createLaunchSpaceX(response: AxiosResponse): Promise<void> {
+  try {
+    const launchDocs = await response.data.docs;
+    for (const launchDoc of launchDocs) {
+      const launch: LaunchType = {
+        flightNumber: launchDoc.flight_number,
+        mission: launchDoc.name,
+        rocket: launchDoc.rocket.name,
+        launchDate: launchDoc.date_local,
+        upcoming: launchDoc.upcoming,
+        success: launchDoc.success,
+        customers: flattenToSingleList(launchDoc.payloads),
+        target: "Kepler-1652 b",
+      };
+      console.log("To be save to DB: ", "\n", launch);
+
+      await saveLaunchToMongoDB(launch);
+    }
+  } catch (err) {
+    const errorMessage = (err as Error).message;
+    console.error("Error: ", errorMessage);
+  }
+}
+
+//Get rid of nestest array and transform it into single array
+function flattenToSingleList(payloads: []): string[] {
+  const customers: string[] = payloads.flatMap((payload) => {
+    return payload["customers"];
+  });
+  return customers;
 }
 
 export {
@@ -97,62 +208,5 @@ export {
   scheduleNewLaunch,
   abortLaunchById,
   existsLaunchWithId,
+  loadLaunchData,
 };
-
-//Keep track of flightNumber
-// let latestFlightNumber = 100;
-
-//an object of Launch Type
-// const launch: LaunchType = {
-//   flightNumber: 100,
-//   mission: "Kepler Exploration Soran",
-//   rocket: "Saturn IS2",
-//   launchDate: new Date("December 27, 2030"),
-//   target: "Kepler-442 b",
-//   customers: ["ZTM", "NASA"],
-//   upcoming: true,
-//   success: true,
-// };
-
-// saveLaunchToMongoDB(launch);
-
-// export function addNewLaunch(launchPostData: LaunchType): LaunchType {
-//   latestFlightNumber++;
-//   const newLaunch: LaunchType = {
-//     ...launchPostData,
-//     //Add addtional properties
-//     flightNumber: latestFlightNumber,
-//     // customers: ["ZTM", "NASA"],
-//     upcoming: true,
-//     success: true,
-//   };
-//   launches.set(latestFlightNumber, newLaunch);
-//   return newLaunch;
-// }
-
-// if (launch?.flightNumber) launches.set(launch.flightNumber, launch);
-//console.log(launches.values());
-//console.log(Array.from(launches.values()));
-
-//Data Access function
-// export function getAllLaunches(): LaunchType[] {
-//convert Map to Array. Each value contain launch object. To send it
-//back to client as JSON we need to transform it into JS notation
-//   return Array.from(launches.values());
-// }
-
-// //Map object holds key-value pairs where values of any type can
-// //be used as either keys or values
-// const launches: Map<number | undefined, LaunchType> = new Map();
-
-// export function existsLaunchWithId(launchId: number): boolean {
-//   return launches.has(launchId);
-// }
-
-// export function abortLaunchById(launchId: number): LaunchType | undefined {
-//   //launches.delete(launchId);
-//   const aborted = launches.get(launchId);
-//   aborted?.upcoming ? (aborted.upcoming = false) : true;
-//   aborted?.success ? (aborted.success = false) : true;
-//   return aborted;
-// }

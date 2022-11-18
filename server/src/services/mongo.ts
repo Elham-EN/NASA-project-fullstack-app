@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
-const MONGO_URL =
-  "mongodb+srv://nasa-api:BuXGXjtgCh5flRzj@nasacluster.5y3qujg.mongodb.net/nasa?retryWrites=true&w=majority";
+const MONGO_URL = process.env.MONGODB_URI as string;
 
 export async function connectToMongoDB(): Promise<void> {
   await mongoose.connect(MONGO_URL);

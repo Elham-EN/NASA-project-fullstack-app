@@ -7,11 +7,11 @@ import {
 
 const launchesRouter = express.Router();
 
-launchesRouter.get("/launches", httpGetAllLaunches);
+launchesRouter.get("/", httpGetAllLaunches);
 
-launchesRouter.post("/launches", httpAddNewLaunch);
+launchesRouter.post("/", httpAddNewLaunch);
 
 //Pass parameter ':id' for dynamic
-launchesRouter.delete("/launches/:id", httpAbortLaunch);
+launchesRouter.delete("/:id", httpAbortLaunch);
 
 export default launchesRouter;

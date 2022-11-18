@@ -7,6 +7,6 @@ const planetsRouter = express.Router();
 
 //Listen for GET request on route /planets and then execute
 //this callback function without ()
-planetsRouter.get("/planets", httpGetAllPlanets);
+planetsRouter.get("/", httpGetAllPlanets);
 
 export default planetsRouter;

@@ -3,9 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import path from "path";
 import fs from "fs";
-import planetsRouter from "./routes/planets/planets.router";
-import launchesRouter from "./routes/launches/launches.router";
-
+import api from "./routes/api";
 //Express Application - listen for incoming request
 const app = express();
 
@@ -31,8 +29,11 @@ app.use(express.json());
 //request. Specify the root directory from which to serve static assets
 app.use(express.static(path.join(__dirname, "..", "public")));
 
-app.use(planetsRouter); //Handle planets routes for incoming request
-app.use(launchesRouter); //Handle launches routes for incoming request
+//For example /localhost:8000/v1/planets
+app.use("/v1", api);
+
+// app.use("/v1/planets", planetsRouter); //Handle planets routes for incoming request
+// app.use("/v1/launches", launchesRouter); //Handle launches routes for incoming request
 
 //To serve index.html from slash route so that the user doesn't need to
 //specify that they want to load index.html. So that first page load

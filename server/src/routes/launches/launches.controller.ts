@@ -5,6 +5,7 @@ import {
   abortLaunchById,
 } from "../../models/launches.model";
 import { Request, Response } from "express";
+import { getPagination } from "../../services/query";
 
 //Data transfer object. It's an object that the client sends to the server
 interface CreateLaunchDto {
@@ -15,13 +16,17 @@ interface CreateLaunchDto {
 }
 
 export async function httpGetAllLaunches(
-  _req: Request,
+  req: Request,
   res: Response
 ): Promise<Response> {
+  const { limit, skip } = getPagination({
+    limit: Number(req.query.limit),
+    page: Number(req.query.page),
+  });
   return res
     .setHeader("Content-Type", "application/json")
     .status(200)
-    .send(await getAllLaunches());
+    .send(await getAllLaunches(skip, limit));
 }
 
 export async function httpAddNewLaunch(
