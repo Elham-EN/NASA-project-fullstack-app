@@ -34,10 +34,10 @@ jobs:
       - uses: actions/checkout@v3
       # Setup Node to makue we have node install in this machine
       # that is running the build
-      - name: Use Node.js version 14 & 16
+      - name: Use Node.js version ${{matrix.node-version}}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{maxtrix.node-version}}
+          node-version: ${{matrix.node-version}}
       # install the dependecies
       - name: Install
         working-directory: client
