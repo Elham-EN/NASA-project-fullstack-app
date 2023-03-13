@@ -46,4 +46,4 @@ jobs:
       - name: Build
         working-directory: client
         run: npm run build
-      - run: npm test run
+      - run: npm test
