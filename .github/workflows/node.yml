@@ -46,4 +46,9 @@ jobs:
       - name: Build
         working-directory: client
         run: npm run build
-      - run: npm test
+      - name: Install Jest
+        working-directory: server
+        run: npm install
+      - name: Test
+        working-directory: server
+        run: npm test
