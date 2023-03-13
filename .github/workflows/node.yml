@@ -15,6 +15,15 @@ on:
 jobs:
   # We're testing how to install and build our project
   build:
+    # Specify the enviroment the job will run
+    env:
+      # let create react app test script will know that we're
+      # running CI enviroment and will diable watch mode
+      CI: true
+      # Test application can run on different node version
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
     # Sepcify which platform this job should run on
     runs-on: ubuntu-latest
     # defines steps of our build job, define different actions
@@ -25,10 +34,10 @@ jobs:
       - uses: actions/checkout@v3
       # Setup Node to makue we have node install in this machine
       # that is running the build
-      - name: Use node16
+      - name: Use Node.js version 14 & 16
         uses: actions/setup-node@v3
         with:
-          node-version: 16 # specifiv version of node
+          node-version: ${{maxtrix.node-version}}
       # install the dependecies
       - name: Install
         working-directory: client
@@ -37,3 +46,4 @@ jobs:
       - name: Build
         working-directory: client
         run: npm run build
+      - run: npm test run
