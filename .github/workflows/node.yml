@@ -22,13 +22,13 @@ jobs:
     # job is triggered by push or pr to the master branch
     steps: # automate the different things we want to do in job
       # checkout the lastest version our code from master
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       # Setup Node to makue we have node install in this machine
       # that is running the build
       - name: Use node16
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 18 # specifiv version of node
+          node-version: 16 # specifiv version of node
       # install the dependecies
       - run: npm install
       # Run the create react app build script inside the client folder
