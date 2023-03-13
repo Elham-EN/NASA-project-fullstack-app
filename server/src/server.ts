@@ -9,7 +9,7 @@ import app from "./app";
 import { planetsModelObject } from "./models/planets.model";
 import { loadLaunchData } from "./models/launches.model";
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 5000;
 
 //Take express application request listener function as an argument, which
 //responds to all incoming requests to our server. The benefit of this is

@@ -1,0 +1,35 @@
+# Name of the workflow
+name: NASA Project CI
+# Specifies the tigger for this workflow to run:
+# Build project whenever some new code that's pushed to
+# the repository.
+on:
+  push:
+    branches: [main] # push into this branch
+  # ask the main repository to merge in some changes that
+  # we made. To catch those pull request base on event trigger
+  pull_request:
+    branches: [main]
+# We can define jobs that are suppose to run when of these two
+# events is triggered
+jobs:
+  # We're testing how to install and build our project
+  build:
+    # Sepcify which platform this job should run on
+    runs-on: ubuntu-latest
+    # defines steps of our build job, define different actions
+    # that are going to be taken on Ubuntu whenever our build
+    # job is triggered by push or pr to the master branch
+    steps: # automate the different things we want to do in job
+      # checkout the lastest version our code from master
+      - uses: actions/checkout@v2
+      # Setup Node to makue we have node install in this machine
+      # that is running the build
+      - name: Use node16
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16 # specifiv version of node
+      # install the dependecies
+      - run: npm install
+      # Run the create react app build script inside the client folder
+      - run: npm run build --prefix client

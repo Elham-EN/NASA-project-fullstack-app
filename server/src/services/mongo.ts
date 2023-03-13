@@ -1,4 +1,8 @@
 import mongoose from "mongoose";
+// loads environment variables from a .env file into process.env
+import * as dotenv from "dotenv";
+//Must call this function above all local imports
+dotenv.config();
 
 const MONGO_URL = process.env.MONGODB_URI as string;
 
