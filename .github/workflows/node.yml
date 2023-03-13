@@ -28,7 +28,7 @@ jobs:
       - name: Use node16
         uses: actions/setup-node@v2
         with:
-          node-version: 16 # specifiv version of node
+          node-version: 18 # specifiv version of node
       # install the dependecies
       - run: npm install
       # Run the create react app build script inside the client folder
