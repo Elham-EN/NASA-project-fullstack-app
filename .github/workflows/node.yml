@@ -25,7 +25,7 @@ jobs:
     strategy:
       matrix:
         node-version: [14.x, 16.x]
-        mongodv-version: ["4.2", "6.7"]
+        mongodb-version: ["4.2", "4.4", "5.0", "6.0"]
     # Sepcify which platform this job should run on
     runs-on: ubuntu-latest
     # defines steps of our build job, define different actions
@@ -43,7 +43,7 @@ jobs:
       - name: Start MongoDB Server in GitHub Action
         uses: supercharge/mongodb-github-action@1.9.0
         with:
-          mongodb-version: ${{matrix.mongodb-version}}
+          mongodb-version: ${{ matrix.mongodb-version }}
       # install the dependecies in client directory
       - name: Install
         working-directory: client
@@ -60,3 +60,5 @@ jobs:
       - name: Run Tests (Server)
         working-directory: server
         run: npm test
+        env:
+          CI: true
