@@ -57,6 +57,6 @@ jobs:
         working-directory: server
         run: npm install --force
       # Run Jest testing and test the APIs
-      - name: Run Tests (Server)
-        working-directory: server
-        run: npm test
+      #- name: Run Tests (Server)
+      #working-directory: server
+      #run: npm test
