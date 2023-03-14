@@ -1,6 +1,6 @@
 import request from "supertest";
 import app from "../app";
-import { connectToMongoDB, disconnectMongoDB } from "../services/mongo";
+import { connectToMongoDB } from "../services/mongo";
 import { planetsModelObject } from "../models/planets.model";
 
 interface completeLaunchData {
