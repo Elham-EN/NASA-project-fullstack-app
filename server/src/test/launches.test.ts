@@ -23,8 +23,8 @@ enum URL {
 describe("Launches API", () => {
   //Setup an mongdb environment onece for all test cases
   beforeAll(async () => {
-    await planetsModelObject.loadPlanetsData();
     await connectToMongoDB();
+    await planetsModelObject.loadPlanetsData();
   });
 
   afterAll(async () => {
