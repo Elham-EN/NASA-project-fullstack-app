@@ -29,7 +29,7 @@ describe("Launches API", () => {
   });
 
   afterAll(async () => {
-    await disconnectMongoDB();
+    // await disconnectMongoDB();
   });
 
   describe("GET (Request) /launches - fetch all launches", function () {

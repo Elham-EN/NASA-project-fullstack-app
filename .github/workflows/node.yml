@@ -25,7 +25,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        mongodb-version: ["4.4", "5.0", "6.0", "6.7"]
+        mongodb-version: ["5.0", "6.0"]
     # Sepcify which platform this job should run on
     runs-on: ubuntu-latest
     # defines steps of our build job, define different actions
