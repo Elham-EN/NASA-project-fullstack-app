@@ -1,6 +1,6 @@
 import request from "supertest";
 import app from "../app";
-import { connectToMongoDB } from "../services/mongo";
+import { connectToMongoDB, disconnectMongoDB } from "../services/mongo";
 import { planetsModelObject } from "../models/planets.model";
 
 interface completeLaunchData {
@@ -29,7 +29,7 @@ describe("Launches API", () => {
   });
 
   afterAll(async () => {
-    // await disconnectMongoDB();
+    await disconnectMongoDB();
   });
 
   describe("GET (Request) /launches - fetch all launches", function () {

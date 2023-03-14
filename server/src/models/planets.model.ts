@@ -69,7 +69,7 @@ class PlanetsModel {
           //if it is habitable then push to an array
           if (this.isHabitablePlanets(data)) {
             // this.habitablePlanets.push(data);
-            this.savePlanet(data);
+            await this.savePlanet(data);
           }
         })
         .on("error", (err) => reject(err))
