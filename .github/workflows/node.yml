@@ -48,7 +48,7 @@ jobs:
         run: npm run build
       - name: Install Jest
         working-directory: server
-        run: npm install
+        run: npm install --force
       - name: Test
         working-directory: server
         run: npm test
