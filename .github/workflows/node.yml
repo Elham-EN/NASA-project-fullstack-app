@@ -24,8 +24,8 @@ jobs:
       # Test application can run on different node version
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
-        mongodb-version: ["4.2", "4.4", "5.0", "6.0"]
+        node-version: [16.x]
+        mongodb-version: ["4.4", "5.0", "6.0", "6.7"]
     # Sepcify which platform this job should run on
     runs-on: ubuntu-latest
     # defines steps of our build job, define different actions
