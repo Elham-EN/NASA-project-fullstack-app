@@ -25,6 +25,7 @@ describe("Launches API", () => {
   beforeAll(async () => {
     await connectToMongoDB();
     await planetsModelObject.loadPlanetsData();
+    await planetsModelObject.getAllPlanets();
   });
 
   afterAll(async () => {
