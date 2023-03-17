@@ -1,15 +1,15 @@
 import express from "express";
-import morgan from "morgan";
+// import morgan from "morgan";
 import cors from "cors";
 import path from "path";
-import fs from "fs";
+// import fs from "fs";
 import api from "./routes/api";
 //Express Application - listen for incoming request
 const app = express();
 
 // create a write stream (in append mode) (write logs to a file)
-const logPath = path.join(__dirname, "..", "access.log");
-const accessLogStream = fs.createWriteStream(logPath, { flags: "a" });
+// const logPath = path.join(__dirname, "..", "access.log");
+// const accessLogStream = fs.createWriteStream(logPath, { flags: "a" });
 
 //Express chain of middleware functions handle incoming request
 
@@ -19,7 +19,7 @@ const accessLogStream = fs.createWriteStream(logPath, { flags: "a" });
 app.use(cors({ origin: "http://localhost:3000" }));
 
 //HTTP request logger middleware. Log incoming request
-app.use(morgan("combined", { stream: accessLogStream }));
+// app.use(morgan("combined", { stream: accessLogStream }));
 
 //Will parse any incoming JSON to JS object from the body of
 //incoming request that could POST or PUT

@@ -1,6 +1,6 @@
 # Fake Nasa control misson dashboard project
 
-### Find a list of habitable planets based on ten thousands rows of data from nasa csv file and set a launch mission for one of those habitable planet.
+### Provide latest information on rocket launched by Nasa and SpaceX, their paylod, mission, launch date, destination.
 
 ### Programming, libraries and tools used for this project
 
